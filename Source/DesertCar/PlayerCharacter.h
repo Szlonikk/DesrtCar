@@ -10,6 +10,13 @@
 #include "Camera/CameraComponent.h"
 #include "PaperSpriteComponent.h"
 
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "Components/InputComponent.h"
+#include "InputActionValue.h"
+#include "GameFramework/Controller.h"
+
+
 #include "PlayerCharacter.generated.h"
 
 UCLASS()
@@ -31,6 +38,14 @@ public:
 	UPaperSpriteComponent* CarSprite;
 
 
+	UPROPERTY(EditAnywhere,BlueprintReadOnly)
+	UInputMappingContext* InputMappingContext;
+		
+	UPROPERTY(EditAnywhere,BlueprintReadOnly)
+	UInputAction* MoveAction;
+
+
+
 	APlayerCharacter();
 
 	virtual void BeginPlay() override;
@@ -38,5 +53,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	void Move(const FInputActionValue& Value);
 
 };
