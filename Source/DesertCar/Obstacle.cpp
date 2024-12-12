@@ -2,7 +2,7 @@
 
 
 #include "Obstacle.h"
-
+#include "PlayerCharacter.h"
 AObstacle::AObstacle()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -19,6 +19,8 @@ void AObstacle::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	CapsuleComp->OnComponentBeginOverlap.AddDynamic(this, &AObstacle::OverlapBegin);
+
 }
 
 void AObstacle::Tick(float DeltaTime)
@@ -27,3 +29,11 @@ void AObstacle::Tick(float DeltaTime)
 
 }
 
+void AObstacle::OverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool FromSweep, const FHitResult& SweepResult) {
+	APlayerCharacter* Player=Cast<APlayerCharacter>(OtherActor);
+	if (Player) {
+		if (Player->CanMove) {
+			Player->CanMove = false;
+		}
+	}
+}
